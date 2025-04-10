@@ -3,9 +3,10 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["esm", "cjs"],
-  dts: true,
+  dts: {
+    resolve: true, // ensures .d.ts files are properly linked
+  },
   sourcemap: true,
   clean: true,
-  outDir: "dist",
   target: "es2020"
 });

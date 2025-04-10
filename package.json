@@ -10,6 +10,7 @@
     "clean": "pnpm -r run clean"
   },
   "devDependencies": {
+    "@types/react": "^18.2.61",
     "typescript": "^5.8.3"
   }
 }

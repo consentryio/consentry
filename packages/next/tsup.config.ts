@@ -3,9 +3,8 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["esm", "cjs"],
-  dts: true,
+  dts: false, // ✅ Stop tsup from building declaration files
   sourcemap: true,
   clean: true,
-  outDir: "dist",
-  target: "es2020"
+  target: "es2020",
 });
