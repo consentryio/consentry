@@ -1,50 +1,15 @@
 {
-  "name": "@consentry/next",
-  "version": "0.1.0",
-  "description": "Consent manager for Next.js with Google Consent Mode and cookie category control",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
   ],
   "scripts": {
-    "dev": "tsup --watch",
-    "build": "tsup",
-    "clean": "rm -rf dist",
-    "prepublishOnly": "npm run build"
-  },
-  "keywords": [
-    "cookie",
-    "consent",
-    "gdpr",
-    "google consent mode",
-    "next.js",
-    "react",
-    "typescript",
-    "cookie-banner",
-    "privacy",
-    "tsup"
-  ],
-  "author": "Mustafa ONAL <mustafasaitonal@outlook.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/consentryio/next.git"
-  },
-  "bugs": {
-    "url": "https://github.com/consentryio/next/issues"
-  },
-  "homepage": "https://github.com/consentryio/next#readme",
-  "peerDependencies": {
-    "react": "^18.0.0",
-    "next": "^13.0.0 || ^14.0.0"
+    "build": "pnpm -r run build",
+    "dev": "pnpm -r run dev",
+    "clean": "pnpm -r run clean"
   },
   "devDependencies": {
-    "tsup": "^7.0.0",
-    "typescript": "^5.0.0",
-    "@types/react": "^18.0.0",
-    "@types/node": "^18.0.0"
-  },
-  "sideEffects": false
+    "typescript": "^5.8.3"
+  }
 }

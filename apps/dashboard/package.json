@@ -1,0 +1,9 @@
+{
+  "name": "dashboard",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {},
+  "devDependencies": {
+    "tsup": "^8.4.0"
+  }
+}

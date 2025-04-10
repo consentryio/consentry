@@ -1,0 +1,22 @@
+{
+  "name": "@consentry/next",
+  "@consentry/core": "*",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@consentry/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "next": ">=13.0.0 <16.0.0",
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.4.0"
+  }
+}
