@@ -10,6 +10,7 @@
     "clean": "pnpm -r run clean"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.28.1",
     "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.2.61",
     "prettier": "^3.5.3",

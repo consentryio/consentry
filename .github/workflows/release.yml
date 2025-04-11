@@ -1,0 +1,25 @@
+name: Publish Package
+
+on:
+  push:
+    tags:
+      - "core-v*.*.*" # Example: tag for core package
+      - "next-v*.*.*" # Example: tag for next package
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          registry-url: "https://registry.npmjs.org"
+
+      - run: pnpm install
+      - run: pnpm --filter @consentry/core run build # adapt this per package
+      - run: pnpm publish --filter @consentry/core --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
