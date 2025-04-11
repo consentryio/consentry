@@ -1,0 +1,67 @@
+name: Release @consentry/core
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release-core:
+    name: Build and Publish @consentry/core
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/core
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Determine version and tag
+        id: versioning
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          TAG="core-v$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag already exists."
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+          else
+            echo "Tag does not exist."
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build package
+        if: steps.versioning.outputs.should_publish == 'true'
+        run: pnpm run build
+
+      - name: Publish to npm
+        if: steps.versioning.outputs.should_publish == 'true'
+        run: pnpm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create Git tag
+        if: steps.versioning.outputs.should_publish == 'true'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag ${{ steps.versioning.outputs.tag }}
+          git push origin ${{ steps.versioning.outputs.tag }}
