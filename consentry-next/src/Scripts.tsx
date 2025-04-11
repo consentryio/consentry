@@ -1,3 +1,4 @@
+// @ts-ignore
 "use client";
 
 import Script from "next/script";
