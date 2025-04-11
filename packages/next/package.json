@@ -10,7 +10,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@consentry/core": "workspace:*"
+    "@consentry/core": "^0.1.0"
   },
   "peerDependencies": {
     "next": ">=13.0.0 <16.0.0",
