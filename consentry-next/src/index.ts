@@ -1,3 +1,8 @@
 export * from "./Scripts";
 export * from "./ConsentManagerProvider";
-export type { CookiePreferences, ConsentCategory, ConsentScript } from "@consentry/core";
+export type {
+  ConsentConfig,
+  CookiePreferences,
+  ConsentCategory,
+  ConsentScript,
+} from "@consentry/core";
