@@ -43,8 +43,8 @@ importers:
   packages/next:
     dependencies:
       '@consentry/core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: ^0.1.0
+        version: 0.1.0
       next:
         specifier: '>=13.0.0 <16.0.0'
         version: 15.3.0(react-dom@19.1.0(react@18.3.1))(react@18.3.1)
@@ -119,6 +119,9 @@ packages:
 
   '@changesets/write@0.4.0':
     resolution: {integrity: sha512-CdTLvIOPiCNuH71pyDu3rA+Q0n65cmAbXnwWH84rKGiFumFzkmHNT8KHTMEchcxN+Kl8I54xGUhJ7l3E7X396Q==}
+
+  '@consentry/core@0.1.0':
+    resolution: {integrity: sha512-a+ws55n8Sq2VWN9dB+Keu5cP+irroy2DPxpRo5i2JICiwtI9+e3XzLRav45FtaEpD8xrYiijs2pnqc2tQI4+kQ==}
 
   '@emnapi/runtime@1.4.0':
     resolution: {integrity: sha512-64WYIf4UYcdLnbKn/umDlNjQDSS8AgZrI/R9+x5ilkUVFxXcA1Ebl+gQLc/6mERA4407Xof0R7wEyEuj091CVw==}
@@ -1425,6 +1428,8 @@ snapshots:
       fs-extra: 7.0.1
       human-id: 4.1.1
       prettier: 2.8.8
+
+  '@consentry/core@0.1.0': {}
 
   '@emnapi/runtime@1.4.0':
     dependencies:
