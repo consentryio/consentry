@@ -1,6 +1,6 @@
 {
   "name": "@consentry/next",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -10,7 +10,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@consentry/core": "^0.1.1"
+    "@consentry/core": "^0.1.0"
   },
   "peerDependencies": {
     "next": ">=13.0.0 <16.0.0",
