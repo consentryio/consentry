@@ -2,12 +2,13 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
+    "declaration": true,
+    "declarationMap": true,
     "jsx": "react-jsx",
-    "baseUrl": ".",
-    "typeRoots": ["./types", "./node_modules/@types"],
-    "paths": {
-      "consent.config": ["../../apps/demo/consent.config.ts"]
-    }
+    "target": "es2020",
+    "outDir": "dist",
+    "rootDir": "src"
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"] // ✅ THIS LINE IS CRITICAL
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

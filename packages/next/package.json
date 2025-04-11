@@ -4,13 +4,20 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
-    "build": "tsup && tsc -p tsconfig.types.json",
+    "build": "tsup && tsc -p tsconfig.build.json",
     "dev": "tsup --watch",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@consentry/core": "^0.1.0"
+    "@consentry/core": "^0.1.2"
   },
   "peerDependencies": {
     "next": ">=13.0.0 <16.0.0",
