@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",             // Required for paths
+    "baseUrl": ".",
     "paths": {
       "@consentry/core": ["packages/core/src"],
       "@consentry/next": ["packages/next/src"]

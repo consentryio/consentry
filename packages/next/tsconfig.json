@@ -2,7 +2,12 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "composite": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "typeRoots": ["./types", "./node_modules/@types"],
+    "paths": {
+      "consent.config": ["../../apps/demo/consent.config.ts"]
+    }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"]   // ✅ THIS LINE IS CRITICAL
+  "include": ["src/**/*.ts", "src/**/*.tsx"] // ✅ THIS LINE IS CRITICAL
 }

@@ -1,1 +1,1 @@
-export { ConsentManagerProvider } from "./ConsentManagerProvider";
+export { ConsentManagerProvider, useConsentManager } from "./ConsentManagerProvider";

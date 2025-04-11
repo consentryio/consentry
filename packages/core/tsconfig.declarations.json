@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "files": [
+    "src/index.ts",
+    "src/types.ts",
+    "src/storage.ts",
+    "src/defaults.ts",
+    "src/updateConsentSettings.ts",
+    "src/getAllowedScripts.ts"
+  ]
+}

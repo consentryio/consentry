@@ -10,7 +10,12 @@
     "clean": "pnpm -r run clean"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.2.61",
+    "prettier": "^3.5.3",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "js-cookie": "^3.0.5"
   }
 }
