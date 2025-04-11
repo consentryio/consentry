@@ -119,4 +119,4 @@ Automatically injects only allowed scripts based on config + preferences.
 
 ## 📄 License
 
-MIT — Copyright © 2025 [Mustafa Onal](https://github.com/mustafa-onal)
+MIT — Copyright © 2025 [Mustafa ONAL](https://github.com/neddl)
