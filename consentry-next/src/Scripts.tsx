@@ -2,10 +2,20 @@
 
 import Script from "next/script";
 import React from "react";
-import consentConfig from "consent.config";
 import { useConsentManager } from "./ConsentManagerProvider";
 import { getAllowedScripts } from "@consentry/core";
-import type { ConsentScript } from "@consentry/core";
+import type { ConsentScript, ConsentConfig } from "@consentry/core";
+
+// ✅ Dynamically load config instead of static import
+let consentConfig: ConsentConfig;
+
+try {
+  consentConfig = require("consent.config").default;
+} catch {
+  throw new Error(
+    `[consentry] Missing "consent.config.ts" at the project root. Please create one to configure scripts.`
+  );
+}
 
 export function Scripts() {
   const { cookiePreferences } = useConsentManager();

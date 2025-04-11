@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import consentConfig from "consent.config";
 import { Scripts } from "./Scripts";
 
 import {
@@ -10,7 +9,19 @@ import {
   getConsentPreferences,
   setConsentPreferences,
   updateConsentSettings,
+  ConsentConfig,
 } from "@consentry/core";
+
+// Dynamically resolve consent.config
+let consentConfig: ConsentConfig;
+
+try {
+  consentConfig = require("consent.config").default;
+} catch {
+  throw new Error(
+    `[consentry] Missing "consent.config.ts" at the project root. Please create one or provide config injection support.`
+  );
+}
 
 const defaultPreferences: CookiePreferences = {
   ...fallbackDefaults,
@@ -73,7 +84,6 @@ export const useConsentManager = () => {
 
   const { cookiePreferences, setCookiePreferences } = ctx;
 
-  // Individual setters
   const setCategoryConsent = (category: keyof CookiePreferences, value: boolean) => {
     setCookiePreferences({
       ...cookiePreferences,
