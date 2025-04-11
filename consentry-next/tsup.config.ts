@@ -6,5 +6,6 @@ export default defineConfig({
   target: "es2020",
   sourcemap: true,
   clean: true,
-  dts: true
+  dts: true,
+  external: ['consent.config'],
 });
