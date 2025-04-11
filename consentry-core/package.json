@@ -1,6 +1,32 @@
 {
   "name": "@consentry/core",
-  "version": "0.1.5",
+  "version": "0.1.6",
+  "description": "Core consent management logic for Consentry SDK — handles preferences, script filtering, and integration with analytics tools.",
+  "keywords": [
+    "consent",
+    "cookie-consent",
+    "privacy",
+    "cookie-banner",
+    "core-sdk",
+    "analytics-consent",
+    "js-cookie",
+    "google-analytics"
+  ],
+  "homepage": "https://github.com/consentryio/consentry/tree/main/consentry-core#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/consentryio/consentry.git",
+    "directory": "consentry-core"
+  },
+  "bugs": {
+    "url": "https://github.com/consentryio/consentry/issues"
+  },
+  "author": {
+    "name": "Mustafa ONAL",
+    "email": "mustafasaitonal@outlook.com",
+    "url": "https://github.com/neddl"
+  },
+  "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -17,13 +43,12 @@
   "scripts": {
     "build": "tsup"
   },
+  "dependencies": {
+    "js-cookie": "^3.0.5"
+  },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
     "tsup": "^8.4.0",
     "typescript": "^5.0.0"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "js-cookie": "^3.0.5"
   }
 }

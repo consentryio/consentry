@@ -1,89 +1,136 @@
-# 🛡️ Consentry Monorepo
+# @consentry/core
 
-Welcome to the official **Consentry** monorepo — a developer-first, modular consent management system designed for modern frameworks like **Next.js**, with full support for **Google Consent Mode v2**, **cookie categories**, and plug-and-play script control.
-
----
-
-## 📦 Packages
-
-This repo uses a **monorepo layout** powered by `pnpm` workspaces and supports multiple packages:
-
-| Package               | Description                                     |
-|-----------------------|-------------------------------------------------|
-| `@consentry/core`     | Core logic for managing consent preferences, cookie handling, and Consent Mode. |
-| `@consentry/next`     | Next.js adapter using `<Script>` API, optimized for App Router. |
-| (future) `@consentry/react` | Generic React version for non-Next.js projects. |
-| (future) `@consentry/ui`    | Pre-built UI components and theme system. |
-| (future) `dashboard`        | Self-hosted or SaaS config dashboard. |
+> Core consent management logic for Consentry SDK — handles preferences, script filtering, and integration with tools like Google Analytics.
 
 ---
 
-## 📁 Folder Structure
+## ✨ Overview
 
-```
-.
-├── packages/
-│   ├── core/           # Consent logic, cookie storage, config schema
-│   └── next/           # Next.js specific adapter
-├── apps/               # (Optional) Dashboard or documentation
-├── .gitignore
-├── package.json
-├── tsconfig.base.json
-├── pnpm-workspace.yaml
-```
+`@consentry/core` provides all the underlying logic required for consent management in your web applications. It helps filter scripts based on user preferences, manage consent storage via `localStorage` or cookies, and update analytics frameworks like Google Analytics.
+
+This package is **framework-agnostic** and intended to be used alongside frontend-specific wrappers like [`@consentry/next`](https://www.npmjs.com/package/@consentry/next).
 
 ---
 
-## 🚀 Getting Started
-
-### 1. Clone the repo
+## 📦 Installation
 
 ```bash
-git clone https://github.com/consentryio/consentry.git
-cd consentry
-```
-
-### 2. Install dependencies
-
-```bash
-pnpm install
-```
-
-### 3. Build all packages
-
-```bash
-pnpm run build
+npm install @consentry/core
 ```
 
 ---
 
-## 📜 Scripts
+## 🔧 Usage
 
-From the root:
+### 1. Define fallback preferences
 
-- `pnpm build` – builds all packages
-- `pnpm dev` – runs packages in dev/watch mode (if configured)
-- `pnpm clean` – removes all dist folders
+```ts
+import { fallbackDefaults } from "@consentry/core";
+
+console.log(fallbackDefaults);
+// { functional: true, performance: false, advertising: false, social: false }
+```
+
+### 2. Filter allowed scripts
+
+```ts
+import { getAllowedScripts } from "@consentry/core";
+
+const scripts = getAllowedScripts(config, userPrefs, true);
+// → returns only scripts the user has consented to
+```
+
+### 3. Store & retrieve preferences
+
+```ts
+import { getConsentPreferences, setConsentPreferences } from "@consentry/core";
+
+const currentPrefs = getConsentPreferences();
+setConsentPreferences({ functional: true, performance: true, advertising: false, social: false });
+```
+
+### 4. Send consent updates to Google Analytics
+
+```ts
+import { updateConsentSettings } from "@consentry/core";
+
+updateConsentSettings("update", {
+  analytics_storage: "granted",
+  ad_storage: "denied",
+});
+```
 
 ---
 
-## 🤝 Contributing
+## 🧠 Types
 
-1. Clone the repo
-2. Create a new branch
-3. Work inside `packages/your-package`
-4. Submit a pull request
+### `ConsentCategory`
+
+```ts
+"functional" | "performance" | "advertising" | "social"
+```
+
+---
+
+### `CookiePreferences`
+
+```ts
+type CookiePreferences = Record<ConsentCategory, boolean>;
+```
+
+---
+
+### `ConsentScript`
+
+```ts
+{
+  id: string;
+  category: ConsentCategory;
+  consentRequired?: boolean;
+  strategy?: "afterInteractive" | "lazyOnload" | "beforeInteractive";
+  src?: string;
+  content?: string;
+  noscript?: string;
+  vendor?: string;
+  default?: boolean;
+}
+```
+
+---
+
+### `ConsentConfig`
+
+```ts
+{
+  debug?: boolean;
+  defaults: CookiePreferences;
+  scripts: ConsentScript[];
+}
+```
+
+---
+
+### `ConsentSettings` (Google Analytics V4)
+
+```ts
+{
+  analytics_storage?: "granted" | "denied";
+  ad_storage?: "granted" | "denied";
+  ad_user_data?: "granted" | "denied";
+  ad_personalization?: "granted" | "denied";
+}
+```
+
+---
+
+## 🚀 Coming soon
+
+- ⚙️ Config validation with `defineConsentConfig()`
+- 📚 Config file loader (`consent.config.ts`)
+- 🔌 Integration hooks for third-party tools (FB Pixel, Hotjar, etc.)
 
 ---
 
 ## 📄 License
 
-MIT License © Mustafa ONAL  
-SaaS dashboard may be dual-licensed under a Business Source License (BSL) later.
-
----
-
-## 🌐 Learn More
-
-- Website: coming soon
-- Docs: coming soon
+MIT — Copyright © 2025 [Mustafa Onal](https://github.com/mustafa-onal)

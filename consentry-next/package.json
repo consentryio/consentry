@@ -1,16 +1,53 @@
 {
   "name": "@consentry/next",
-  "version": "0.1.4",
+  "version": "0.1.5",
+  "description": "Next.js + React integration layer for the Consentry SDK. Manages cookie preferences, script injection, and analytics sync.",
+  "keywords": [
+    "nextjs",
+    "react",
+    "consent-manager",
+    "cookie-consent",
+    "analytics",
+    "google-analytics",
+    "privacy",
+    "cookie-banner",
+    "gtag"
+  ],
+  "homepage": "https://github.com/consentryio/consentry/tree/main/consentry-next#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/consentryio/consentry.git",
+    "directory": "consentry-next"
+  },
+  "bugs": {
+    "url": "https://github.com/consentryio/consentry/issues"
+  },
+  "author": {
+    "name": "Mustafa Onal",
+    "email": "mustafa.onal@soleilex.com",
+    "url": "https://github.com/mustafa-onal"
+  },
+  "license": "MIT",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@consentry/core": "^0.1.3",
+    "@consentry/core": "^0.1.5",
     "react-dom": "^19.1.0"
   },
   "peerDependencies": {

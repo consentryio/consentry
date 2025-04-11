@@ -1,89 +1,122 @@
-# 🛡️ Consentry Monorepo
+# @consentry/next
 
-Welcome to the official **Consentry** monorepo — a developer-first, modular consent management system designed for modern frameworks like **Next.js**, with full support for **Google Consent Mode v2**, **cookie categories**, and plug-and-play script control.
-
----
-
-## 📦 Packages
-
-This repo uses a **monorepo layout** powered by `pnpm` workspaces and supports multiple packages:
-
-| Package               | Description                                     |
-|-----------------------|-------------------------------------------------|
-| `@consentry/core`     | Core logic for managing consent preferences, cookie handling, and Consent Mode. |
-| `@consentry/next`     | Next.js adapter using `<Script>` API, optimized for App Router. |
-| (future) `@consentry/react` | Generic React version for non-Next.js projects. |
-| (future) `@consentry/ui`    | Pre-built UI components and theme system. |
-| (future) `dashboard`        | Self-hosted or SaaS config dashboard. |
+> React + Next.js integration for the Consentry consent manager. Provides a plug-and-play Consent Manager Provider and dynamic script loader based on user preferences.
 
 ---
 
-## 📁 Folder Structure
+## ✨ Overview
 
-```
-.
-├── packages/
-│   ├── core/           # Consent logic, cookie storage, config schema
-│   └── next/           # Next.js specific adapter
-├── apps/               # (Optional) Dashboard or documentation
-├── .gitignore
-├── package.json
-├── tsconfig.base.json
-├── pnpm-workspace.yaml
-```
+`@consentry/next` is the official Next.js wrapper for [`@consentry/core`](https://www.npmjs.com/package/@consentry/core). It offers:
+
+- ✅ A React Context provider for managing cookie consent
+- ✅ Automatic script filtering and injection via `<Script />`
+- ✅ Google Analytics consent synchronization (`gtag`)
+- ✅ Support for external `consent.config` files
 
 ---
 
-## 🚀 Getting Started
-
-### 1. Clone the repo
+## 📦 Installation
 
 ```bash
-git clone https://github.com/consentryio/consentry.git
-cd consentry
-```
-
-### 2. Install dependencies
-
-```bash
-pnpm install
-```
-
-### 3. Build all packages
-
-```bash
-pnpm run build
+npm install @consentry/next @consentry/core
 ```
 
 ---
 
-## 📜 Scripts
+## ⚙️ Setup
 
-From the root:
+### 1. Create a `consent.config.ts` file in your app root:
 
-- `pnpm build` – builds all packages
-- `pnpm dev` – runs packages in dev/watch mode (if configured)
-- `pnpm clean` – removes all dist folders
+```ts
+import { defineConsentConfig } from "@consentry/core";
+
+export default defineConsentConfig({
+  debug: true,
+  defaults: {
+    functional: true,
+    performance: false,
+    advertising: false,
+    social: false,
+  },
+  scripts: [
+    {
+      id: "ga4",
+      category: "performance",
+      strategy: "afterInteractive",
+      src: "https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX",
+      vendor: "Google Analytics",
+    },
+    {
+      id: "fb-pixel",
+      category: "advertising",
+      content: "console.log('Facebook Pixel loaded')",
+      vendor: "Facebook",
+    }
+  ]
+});
+```
 
 ---
 
-## 🤝 Contributing
+### 2. Wrap your app with the `ConsentManagerProvider`
 
-1. Clone the repo
-2. Create a new branch
-3. Work inside `packages/your-package`
-4. Submit a pull request
+```tsx
+// app/layout.tsx or _app.tsx
+
+import { ConsentManagerProvider } from "@consentry/next";
+
+export default function RootLayout({ children }) {
+  return <ConsentManagerProvider>{children}</ConsentManagerProvider>;
+}
+```
+
+---
+
+### 3. Use the hook to manage preferences
+
+```tsx
+import { useConsentManager } from "@consentry/next";
+
+const { cookiePreferences, setCategoryConsent } = useConsentManager();
+
+return (
+  <button onClick={() => setCategoryConsent("performance", true)}>
+    Enable Performance Cookies
+  </button>
+);
+```
+
+---
+
+## 🧠 Features
+
+### ✅ `ConsentManagerProvider`
+
+- Initializes state from `localStorage` or cookies
+- Applies default values from `consent.config.ts`
+- Syncs changes to `gtag()` for analytics/ads
+- Injects scripts using `<Scripts />`
+
+### ✅ `useConsentManager()` hook
+
+Returns:
+
+```ts
+{
+  cookiePreferences,
+  setCookiePreferences,
+  setCategoryConsent,
+  hasConsentedTo,
+  hasConsentedOnce
+}
+```
+
+### ✅ `<Scripts />` component
+
+Automatically injects only allowed scripts based on config + preferences.
 
 ---
 
 ## 📄 License
 
-MIT License © Mustafa ONAL  
-SaaS dashboard may be dual-licensed under a Business Source License (BSL) later.
-
----
-
-## 🌐 Learn More
-
-- Website: coming soon
-- Docs: coming soon
+MIT — Copyright © 2025 [Mustafa Onal](https://github.com/mustafa-onal)
