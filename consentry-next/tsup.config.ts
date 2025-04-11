@@ -1,4 +1,3 @@
-// tsup.config.ts
 import { defineConfig } from "tsup";
 
 export default defineConfig({
@@ -7,5 +6,5 @@ export default defineConfig({
   target: "es2020",
   sourcemap: true,
   clean: true,
-  dts: false, // let TSC do it separately
+  dts: true
 });

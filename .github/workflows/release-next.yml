@@ -4,15 +4,19 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'consentry-next/**'
+
 permissions:
   contents: write
+
 jobs:
-  release-next:
+  release:
     name: Build and Publish @consentry/next
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: packages/next
+        working-directory: consentry-next
 
     steps:
       - name: Checkout repository
@@ -24,11 +28,8 @@ jobs:
           node-version: 18
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install pnpm
-        run: npm install -g pnpm
-
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
 
       - name: Determine version and tag
         id: versioning
@@ -48,11 +49,11 @@ jobs:
 
       - name: Build package
         if: steps.versioning.outputs.should_publish == 'true'
-        run: pnpm run build
+        run: npm run build
 
       - name: Publish to npm
         if: steps.versioning.outputs.should_publish == 'true'
-        run: pnpm publish --access public --no-git-checks
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
