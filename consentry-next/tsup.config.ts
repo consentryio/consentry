@@ -7,5 +7,5 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   dts: true,
-  external: ['consent.config'],
+  external: ["fs", "path", "./consent.config.js", "./consent.config.ts"],
 });

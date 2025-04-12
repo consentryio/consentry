@@ -7,14 +7,27 @@ import { useConsentManager } from "./ConsentManagerProvider";
 import { getAllowedScripts } from "@consentry/core";
 import type { ConsentScript, ConsentConfig } from "@consentry/core";
 
-// ✅ Dynamically load config instead of static import
+import path from "path";
+import { existsSync } from "fs";
+
+// 🔧 Dynamically load config from root path
 let consentConfig: ConsentConfig;
 
 try {
-  consentConfig = require("consent.config").default;
-} catch {
+  const cwd = process.cwd();
+  const tsPath = path.join(cwd, "consent.config.ts");
+  const jsPath = path.join(cwd, "consent.config.js");
+
+  if (existsSync(jsPath)) {
+    consentConfig = require(jsPath).default;
+  } else if (existsSync(tsPath)) {
+    consentConfig = require(tsPath).default;
+  } else {
+    throw new Error("No consent.config.ts or consent.config.js found at root.");
+  }
+} catch (err) {
   throw new Error(
-    `[consentry] Missing "consent.config.ts" at the project root. Please create one to configure scripts.`
+    `[consentry] Failed to load consent.config at the project root.\n${(err as Error).message}`
   );
 }
 

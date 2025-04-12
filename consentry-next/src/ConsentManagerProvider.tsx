@@ -13,14 +13,27 @@ import {
   ConsentConfig,
 } from "@consentry/core";
 
-// Dynamically resolve consent.config
+import path from "path";
+import { existsSync } from "fs";
+
 let consentConfig: ConsentConfig;
 
+// Dynamically load /consent.config.(js|ts) at runtime
 try {
-  consentConfig = require("consent.config").default;
-} catch {
+  const cwd = process.cwd();
+  const tsPath = path.join(cwd, "consent.config.ts");
+  const jsPath = path.join(cwd, "consent.config.js");
+
+  if (existsSync(jsPath)) {
+    consentConfig = require(jsPath).default;
+  } else if (existsSync(tsPath)) {
+    consentConfig = require(tsPath).default;
+  } else {
+    throw new Error("No consent.config.ts or consent.config.js found at root.");
+  }
+} catch (err) {
   throw new Error(
-    `[consentry] Missing "consent.config.ts" at the project root. Please create one or provide config injection support.`
+    `[consentry] Failed to load consent.config at the project root.\n${(err as Error).message}`
   );
 }
 
