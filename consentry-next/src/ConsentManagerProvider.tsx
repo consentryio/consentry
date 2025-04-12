@@ -1,3 +1,4 @@
+// @ts-ignore
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
@@ -14,53 +15,69 @@ import {
 
 interface ConsentManagerContextValue {
   cookiePreferences: CookiePreferences;
-  setCookiePreferences: (prefs: CookiePreferences) => void;
+  setCookiePreferences: (prefs: CookiePreferences, userHasConsented?: boolean) => void;
+  hasUserConsented: boolean;
 }
 
 const ConsentManagerContext = createContext<ConsentManagerContextValue | undefined>(undefined);
 
 export const ConsentManagerProvider = ({
-  children,
   config,
+  children,
 }: {
-  children: ReactNode;
   config: ConsentConfig;
+  children: ReactNode;
 }) => {
-  const defaultPreferences: CookiePreferences = {
+  const [cookiePreferences, setCookiePreferencesState] = useState<CookiePreferences>({
     ...fallbackDefaults,
     ...config.defaults,
-  };
+  });
 
-  const [cookiePreferences, setCookiePreferences] = useState<CookiePreferences>(defaultPreferences);
+  const [hasUserConsented, setHasUserConsented] = useState(false);
 
+  // Load saved preferences on mount
   useEffect(() => {
     const saved = getConsentPreferences();
-    if (saved) {
-      setCookiePreferences({ ...defaultPreferences, ...saved });
+    if (saved && typeof saved === "object") {
+      const { functional, performance, advertising, social } = saved;
+      setCookiePreferencesState({
+        functional,
+        performance,
+        advertising,
+        social,
+      });
+      setHasUserConsented(true); // User has previously consented
     }
   }, []);
 
-  useEffect(() => {
-    setConsentPreferences(cookiePreferences);
+  // Only persist when user explicitly consents or updates
+  const setCookiePreferences = (prefs: CookiePreferences, userHasConsented = true) => {
+    setCookiePreferencesState(prefs);
 
-    const { performance, advertising, social } = cookiePreferences;
+    if (userHasConsented) {
+      setHasUserConsented(true);
+      setConsentPreferences(prefs); // Persist to storage
 
-    updateConsentSettings("update", {
-      analytics_storage: performance ? "granted" : "denied",
-      ad_storage: advertising ? "granted" : "denied",
-      ad_user_data: advertising ? "granted" : "denied",
-      ad_personalization: social ? "granted" : "denied",
-    });
-  }, [cookiePreferences]);
+      const { performance, advertising, social } = prefs;
+
+      updateConsentSettings("update", {
+        analytics_storage: performance ? "granted" : "denied",
+        ad_storage: advertising ? "granted" : "denied",
+        ad_user_data: advertising ? "granted" : "denied",
+        ad_personalization: social ? "granted" : "denied",
+      });
+    }
+  };
 
   return (
     <ConsentManagerContext.Provider
       value={{
         cookiePreferences,
         setCookiePreferences,
+        hasUserConsented,
       }}
     >
-      <Scripts config={config} />
+      <Scripts />
       {children}
     </ConsentManagerContext.Provider>
   );
@@ -72,7 +89,7 @@ export const useConsentManager = () => {
     throw new Error("useConsentManager must be used within a ConsentManagerProvider");
   }
 
-  const { cookiePreferences, setCookiePreferences } = ctx;
+  const { cookiePreferences, setCookiePreferences, hasUserConsented } = ctx;
 
   const setCategoryConsent = (category: keyof CookiePreferences, value: boolean) => {
     setCookiePreferences({
@@ -84,13 +101,11 @@ export const useConsentManager = () => {
   const hasConsentedTo = (category: keyof CookiePreferences) =>
     cookiePreferences[category] === true;
 
-  const hasConsentedOnce = Object.values(cookiePreferences).some(Boolean);
-
   return {
     cookiePreferences,
     setCookiePreferences,
     setCategoryConsent,
     hasConsentedTo,
-    hasConsentedOnce,
+    hasUserConsented,
   };
 };
