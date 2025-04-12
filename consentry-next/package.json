@@ -1,17 +1,19 @@
 {
   "name": "@consentry/next",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "Next.js + React integration layer for the Consentry SDK. Manages cookie preferences, script injection, and analytics sync.",
   "keywords": [
     "nextjs",
     "react",
     "consent-manager",
     "cookie-consent",
+    "cookie-banner",
     "analytics",
     "google-analytics",
     "privacy",
-    "cookie-banner",
-    "gtag"
+    "gtag",
+    "cookie-policy",
+    "gdpr"
   ],
   "homepage": "https://github.com/consentryio/consentry/tree/main/consentry-next#readme",
   "repository": {
@@ -47,18 +49,20 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@consentry/core": "^0.1.5",
-    "react-dom": "^19.1.0"
+    "@consentry/core": "^0.1.5"
   },
   "peerDependencies": {
     "next": ">=13.0.0 <16.0.0",
-    "react": "^18.2.0 || ^19.0.0"
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.14.1",
-    "@types/react": "^18.2.21",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "tsup": "^8.4.0",
     "typescript": "^5.0.0"
   }
