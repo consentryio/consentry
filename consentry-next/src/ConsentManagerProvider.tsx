@@ -1,4 +1,3 @@
-// @ts-ignore
 "use client";
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
@@ -13,33 +12,6 @@ import {
   ConsentConfig,
 } from "@consentry/core";
 
-let consentConfig: ConsentConfig;
-
-// ✅ Avoid requiring Node modules on the client
-if (typeof window === "undefined") {
-  try {
-    // NOTE: This works only in Node context (SSR)
-    // Must be externalized via tsup
-    consentConfig = require("../../../../consent.config").default;
-  } catch (err) {
-    throw new Error(
-      `[consentry] Failed to load consent.config at the project root.\n${(err as Error).message}`
-    );
-  }
-} else {
-  // ⛑️ Use placeholder or delay access if needed
-  consentConfig = {
-    debug: false,
-    defaults: fallbackDefaults,
-    scripts: [],
-  };
-}
-
-const defaultPreferences: CookiePreferences = {
-  ...fallbackDefaults,
-  ...consentConfig.defaults,
-};
-
 interface ConsentManagerContextValue {
   cookiePreferences: CookiePreferences;
   setCookiePreferences: (prefs: CookiePreferences) => void;
@@ -47,21 +19,27 @@ interface ConsentManagerContextValue {
 
 const ConsentManagerContext = createContext<ConsentManagerContextValue | undefined>(undefined);
 
-export const ConsentManagerProvider = ({ children }: { children: ReactNode }) => {
+export const ConsentManagerProvider = ({
+  children,
+  config,
+}: {
+  children: ReactNode;
+  config: ConsentConfig;
+}) => {
+  const defaultPreferences: CookiePreferences = {
+    ...fallbackDefaults,
+    ...config.defaults,
+  };
+
   const [cookiePreferences, setCookiePreferences] = useState<CookiePreferences>(defaultPreferences);
 
-  // Load initial state from storage on mount
   useEffect(() => {
     const saved = getConsentPreferences();
     if (saved) {
-      setCookiePreferences({
-        ...defaultPreferences,
-        ...saved,
-      });
+      setCookiePreferences({ ...defaultPreferences, ...saved });
     }
   }, []);
 
-  // Persist preferences + update gtag consent when changed
   useEffect(() => {
     setConsentPreferences(cookiePreferences);
 
@@ -82,7 +60,7 @@ export const ConsentManagerProvider = ({ children }: { children: ReactNode }) =>
         setCookiePreferences,
       }}
     >
-      <Scripts />
+      <Scripts config={config} />
       {children}
     </ConsentManagerContext.Provider>
   );
