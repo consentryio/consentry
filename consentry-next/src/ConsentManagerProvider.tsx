@@ -13,28 +13,26 @@ import {
   ConsentConfig,
 } from "@consentry/core";
 
-import path from "path";
-import { existsSync } from "fs";
-
 let consentConfig: ConsentConfig;
 
-// Dynamically load /consent.config.(js|ts) at runtime
-try {
-  const cwd = process.cwd();
-  const tsPath = path.join(cwd, "consent.config.ts");
-  const jsPath = path.join(cwd, "consent.config.js");
-
-  if (existsSync(jsPath)) {
-    consentConfig = require(jsPath).default;
-  } else if (existsSync(tsPath)) {
-    consentConfig = require(tsPath).default;
-  } else {
-    throw new Error("No consent.config.ts or consent.config.js found at root.");
+// ✅ Avoid requiring Node modules on the client
+if (typeof window === "undefined") {
+  try {
+    // NOTE: This works only in Node context (SSR)
+    // Must be externalized via tsup
+    consentConfig = require("../../../../consent.config").default;
+  } catch (err) {
+    throw new Error(
+      `[consentry] Failed to load consent.config at the project root.\n${(err as Error).message}`
+    );
   }
-} catch (err) {
-  throw new Error(
-    `[consentry] Failed to load consent.config at the project root.\n${(err as Error).message}`
-  );
+} else {
+  // ⛑️ Use placeholder or delay access if needed
+  consentConfig = {
+    debug: false,
+    defaults: fallbackDefaults,
+    scripts: [],
+  };
 }
 
 const defaultPreferences: CookiePreferences = {

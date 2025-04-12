@@ -7,28 +7,30 @@ import { useConsentManager } from "./ConsentManagerProvider";
 import { getAllowedScripts } from "@consentry/core";
 import type { ConsentScript, ConsentConfig } from "@consentry/core";
 
-import path from "path";
-import { existsSync } from "fs";
-
-// 🔧 Dynamically load config from root path
 let consentConfig: ConsentConfig;
 
-try {
-  const cwd = process.cwd();
-  const tsPath = path.join(cwd, "consent.config.ts");
-  const jsPath = path.join(cwd, "consent.config.js");
-
-  if (existsSync(jsPath)) {
-    consentConfig = require(jsPath).default;
-  } else if (existsSync(tsPath)) {
-    consentConfig = require(tsPath).default;
-  } else {
-    throw new Error("No consent.config.ts or consent.config.js found at root.");
+// ✅ Load config only on server — return fallback on client
+if (typeof window === "undefined") {
+  try {
+    // IMPORTANT: this will be resolved at build-time or SSR only
+    consentConfig = require("../../../../consent.config").default;
+  } catch (err) {
+    throw new Error(
+      `[consentry] Failed to load consent.config at the project root.\n${(err as Error).message}`
+    );
   }
-} catch (err) {
-  throw new Error(
-    `[consentry] Failed to load consent.config at the project root.\n${(err as Error).message}`
-  );
+} else {
+  // Client fallback if hydration happens before full mount
+  consentConfig = {
+    debug: false,
+    defaults: {
+      functional: true,
+      performance: false,
+      advertising: false,
+      social: false,
+    },
+    scripts: [],
+  };
 }
 
 export function Scripts() {
