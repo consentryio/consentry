@@ -77,7 +77,7 @@ export const ConsentManagerProvider = ({
         hasUserConsented,
       }}
     >
-      <Scripts />
+      <Scripts config={config} />
       {children}
     </ConsentManagerContext.Provider>
   );
