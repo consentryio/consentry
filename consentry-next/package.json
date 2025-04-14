@@ -1,6 +1,6 @@
 {
   "name": "@consentry/next",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "Next.js + React integration layer for the Consentry SDK. Manages cookie preferences, script injection, and analytics sync.",
   "keywords": [
     "nextjs",

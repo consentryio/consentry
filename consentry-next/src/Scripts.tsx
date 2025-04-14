@@ -7,8 +7,10 @@ import { getAllowedScripts } from "@consentry/core";
 import type { ConsentScript, ConsentConfig } from "@consentry/core";
 
 export function Scripts({ config }: { config: ConsentConfig }) {
-  const { cookiePreferences } = useConsentManager();
+  const { cookiePreferences, isConsentKnown } = useConsentManager();
   const debug = config.debug ?? false;
+
+  if (!isConsentKnown) return null; // 👈 Prevent premature script evaluation
 
   const allowedScripts: ConsentScript[] = getAllowedScripts(config, cookiePreferences, debug);
 
