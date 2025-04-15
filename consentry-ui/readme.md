@@ -31,6 +31,7 @@ npm install @consentry/ui @consentry/core @consentry/next
 ```tsx
 "use client";
 import { ConsentManagerProvider } from "@consentry/next";
+import ConsentManager from "@consentry/ui";
 import consentConfig from "./consent.config";
 
 export default function RootLayout({ children }) {
