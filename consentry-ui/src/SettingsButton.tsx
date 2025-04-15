@@ -2,12 +2,7 @@ import React from "react";
 import { FloatingButton, StyledCookieIcon } from "./StyledComponents";
 import { SettingsButtonProps } from "./types";
 
-export const SettingsButton = ({
-  setVisible,
-  open,
-  className,
-  icon,
-}: SettingsButtonProps) => {
+export const SettingsButton = ({ setVisible, open, className, icon }: SettingsButtonProps) => {
   if (!open) return null;
 
   return (

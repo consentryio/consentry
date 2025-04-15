@@ -278,7 +278,9 @@ export const FloatingButton = styled.button`
   }
 `;
 
-export const StyledCookieIcon = styled(Cookie)`
+export const StyledCookieIcon = styled(Cookie, {
+  shouldForwardProp: prop => prop !== "className",
+})`
   width: 1.5rem;
   height: 1.5rem;
 `;
