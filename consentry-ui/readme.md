@@ -1,122 +1,97 @@
-# @consentry/next
+# @consentry/ui
 
-> React + Next.js integration for the Consentry consent manager. Provides a plug-and-play Consent Manager Provider and dynamic script loader based on user preferences.
+> Headless and fully customizable React components for the Consentry consent manager. Includes modals, banners, toggles, and more — built for flexibility and themeability.
 
 ---
 
 ## ✨ Overview
 
-`@consentry/next` is the official Next.js wrapper for [`@consentry/core`](https://www.npmjs.com/package/@consentry/core). It offers:
+`@consentry/ui` is the official component library for [`@consentry/core`](https://www.npmjs.com/package/@consentry/core) and [`@consentry/next`](https://www.npmjs.com/package/@consentry/next). It provides:
 
-- ✅ A React Context provider for managing cookie consent
-- ✅ Automatic script filtering and injection via `<Script />`
-- ✅ Google Analytics consent synchronization (`gtag`)
-- ✅ Support for external `consent.config` files
+- 🎨 Customizable cookie banner and settings modal
+- ⚙️ Headless, themeable, and styled with Emotion + Framer Motion
+- 🧩 Fully controlled or automatic modes
+- 🔄 Animations and accessibility baked-in
+- 🧑‍💻 Easy integration with any config or hook-based logic
 
 ---
 
 ## 📦 Installation
 
 ```bash
-npm install @consentry/next @consentry/core
+npm install @consentry/ui @consentry/core @consentry/next
 ```
 
 ---
 
-## ⚙️ Setup
+## ⚙️ Usage
 
-### 1. Create a `consent.config.ts` file in your app root:
-
-```ts
-import { defineConsentConfig } from "@consentry/core";
-
-export default defineConsentConfig({
-  debug: true,
-  defaults: {
-    functional: true,
-    performance: false,
-    advertising: false,
-    social: false,
-  },
-  scripts: [
-    {
-      id: "ga4",
-      category: "performance",
-      strategy: "afterInteractive",
-      src: "https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX",
-      vendor: "Google Analytics",
-    },
-    {
-      id: "fb-pixel",
-      category: "advertising",
-      content: "console.log('Facebook Pixel loaded')",
-      vendor: "Facebook",
-    }
-  ]
-});
-```
-
----
-
-### 2. Wrap your app with the `ConsentManagerProvider`
+### 1. Wrap your app with `ConsentManagerProvider` (from `@consentry/next`)
 
 ```tsx
-// app/layout.tsx or _app.tsx
-
+"use client";
 import { ConsentManagerProvider } from "@consentry/next";
+import consentConfig from "./consent.config";
 
 export default function RootLayout({ children }) {
-  return <ConsentManagerProvider>{children}</ConsentManagerProvider>;
+  return (
+    <ConsentManagerProvider config={consentConfig}>
+      <ConsentManager mode="modal" dark={false} />
+      {children}
+    </ConsentManagerProvider>
+  );
 }
-```
-
----
-
-### 3. Use the hook to manage preferences
-
-```tsx
-import { useConsentManager } from "@consentry/next";
-
-const { cookiePreferences, setCategoryConsent } = useConsentManager();
-
-return (
-  <button onClick={() => setCategoryConsent("performance", true)}>
-    Enable Performance Cookies
-  </button>
-);
 ```
 
 ---
 
 ## 🧠 Features
 
-### ✅ `ConsentManagerProvider`
+### 🧱 `ConsentManager` Component
 
-- Initializes state from `localStorage` or cookies
-- Applies default values from `consent.config.ts`
-- Syncs changes to `gtag()` for analytics/ads
-- Injects scripts using `<Scripts />`
+The main UI component. Renders:
 
-### ✅ `useConsentManager()` hook
+- ✅ A floating settings button (optional)
+- ✅ A cookie banner (auto-displayed if no prior consent)
+- ✅ A settings modal with toggleable cookie categories
 
-Returns:
+#### Props
 
-```ts
-{
-  cookiePreferences,
-  setCookiePreferences,
-  setCategoryConsent,
-  hasConsentedTo,
-  hasConsentedOnce
-}
+| Prop                 | Type                           | Default    | Description                        |
+| -------------------- | ------------------------------ | ---------- | ---------------------------------- |
+| `mode`               | `"modal" \| "top" \| "bottom"` | —          | Defines banner layout              |
+| `dark`               | `boolean`                      | `false`    | Enables dark mode styling          |
+| `hideSettingsButton` | `boolean`                      | `false`    | Hides the floating button          |
+| `categories`         | `CookieCategory[]`             | predefined | Override default cookie categories |
+| `labels`             | `object`                       | predefined | Customize banner and modal text    |
+| `classNames`         | `object`                       | —          | Customize class names per section  |
+
+---
+
+## 🪝 Control from Anywhere
+
+To open the settings modal programmatically (e.g., from a Privacy page):
+
+```tsx
+import { openConsentSettings } from "@consentry/ui";
+
+<button onClick={() => openConsentSettings()}>Open Cookie Settings</button>;
 ```
 
-### ✅ `<Scripts />` component
+---
 
-Automatically injects only allowed scripts based on config + preferences.
+## 🎨 Customization
+
+You can customize:
+
+- Text (`labels.banner`, `labels.modal`)
+- Style (`classNames.container`, `classNames.title`, etc.)
+- Behavior (`dark`, `mode`, `hideSettingsButton`)
 
 ---
 
 ## 📄 License
 
-MIT — Copyright © 2025 [Mustafa ONAL](https://github.com/neddl)
+MIT — Copyright © 2025  
+[Mustafa ONAL](https://github.com/neddl)  
+[github.com/consentryio](https://github.com/consentryio)
