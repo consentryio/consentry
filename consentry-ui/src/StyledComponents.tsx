@@ -273,14 +273,12 @@ export const FloatingButton = styled.button`
   width: 2.5rem;
   height: 2.5rem;
 
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
   &:hover {
     background-color: #1e40af; /* blue-800 */
   }
-`;
-
-export const StyledCookieIcon = styled(Cookie, {
-  shouldForwardProp: prop => prop !== "className",
-})`
-  width: 1.5rem;
-  height: 1.5rem;
 `;

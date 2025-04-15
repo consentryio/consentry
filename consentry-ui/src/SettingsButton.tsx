@@ -1,10 +1,10 @@
 "use client";
-import { FloatingButton, StyledCookieIcon } from "./StyledComponents";
+import { Cookie } from "lucide-react";
+import { FloatingButton } from "./StyledComponents";
 import { SettingsButtonProps } from "./types";
 
 export const SettingsButton = ({ setVisible, open, className, icon }: SettingsButtonProps) => {
   if (!open) return null;
-  const isClient = typeof window !== "undefined";
 
   return (
     <FloatingButton
@@ -12,7 +12,7 @@ export const SettingsButton = ({ setVisible, open, className, icon }: SettingsBu
       aria-label="Reopen preferences"
       className={className}
     >
-      {icon ?? (isClient ? <StyledCookieIcon /> : null)}
+      {icon ?? <Cookie />}
     </FloatingButton>
   );
 };
