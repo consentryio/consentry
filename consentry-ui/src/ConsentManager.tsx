@@ -1,3 +1,5 @@
+"use client";
+
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import { useConsentManager } from "@consentry/next";
@@ -61,12 +63,8 @@ export const ConsentManager = ({
   classNames = defaultClassNames,
   settingsButtonIcon,
 }: ConsentManagerProps) => {
-  const {
-    cookiePreferences,
-    setCookiePreferences,
-    isConsentKnown,
-    showConsentBanner,
-  } = useConsentManager();
+  const { cookiePreferences, setCookiePreferences, isConsentKnown, showConsentBanner } =
+    useConsentManager();
 
   useEffect(() => {
     setConsentOpener(() => {
