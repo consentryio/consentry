@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "types": ["node", "react"],
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node", // ✅ Required for require() and node modules
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "baseUrl": ".", // ✅ Keep base path clean
+    "resolveJsonModule": true // ✅ In case you load .json config later
+  },
+  "include": ["src/**/*"]
+}
