@@ -1,9 +1,10 @@
-import React from "react";
+"use client";
 import { FloatingButton, StyledCookieIcon } from "./StyledComponents";
 import { SettingsButtonProps } from "./types";
 
 export const SettingsButton = ({ setVisible, open, className, icon }: SettingsButtonProps) => {
   if (!open) return null;
+  const isClient = typeof window !== "undefined";
 
   return (
     <FloatingButton
@@ -11,7 +12,7 @@ export const SettingsButton = ({ setVisible, open, className, icon }: SettingsBu
       aria-label="Reopen preferences"
       className={className}
     >
-      {icon ?? <StyledCookieIcon />}
+      {icon ?? (isClient ? <StyledCookieIcon /> : null)}
     </FloatingButton>
   );
 };
