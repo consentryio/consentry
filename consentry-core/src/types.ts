@@ -14,7 +14,7 @@ export type CookiePreferences = Record<ConsentCategory, boolean>;
 /**
  * Individual script definition for injection and control.
  */
-type ConsentScript = {
+export type ConsentScript = {
   /**
    * Unique ID for your script tag (used for hydration and deduplication).
    */
