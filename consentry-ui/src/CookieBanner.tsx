@@ -31,6 +31,7 @@ export const CookieBanner = ({
       dark={dark}
       role="dialog"
       aria-modal="true"
+      aria-labelledby="cookie-banner-title"
       className={classNames?.container}
       initial={
         isModal
@@ -75,7 +76,9 @@ export const CookieBanner = ({
     >
       <Header className={classNames?.header}>
         <Content className={classNames?.content}>
-          <Title className={classNames?.title}>{labels?.title}</Title>
+          <Title id="cookie-banner-title" className={classNames?.title}>
+            {labels?.title}
+          </Title>
           <Message className={classNames?.message}>{labels?.description}</Message>
         </Content>
         <CloseButton

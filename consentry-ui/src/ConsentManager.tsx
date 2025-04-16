@@ -145,7 +145,7 @@ export const ConsentManager = ({
         <CookieBanner
           mode={mode}
           dark={dark}
-          onClose={() => setShowBanner(false)}
+          onClose={() => setShowBanner(false)} // Consider this for handleRejectAll based on GDPR and others if needed
           onCustomizeClick={handleOpenSettings}
           onAcceptAll={handleAcceptAll}
           onRejectAll={handleRejectAll}
