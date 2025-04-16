@@ -1,6 +1,6 @@
 {
   "name": "@consentry/core",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Core consent management logic for Consentry SDK — handles preferences, script filtering, and integration with analytics tools.",
   "keywords": [
     "consent",

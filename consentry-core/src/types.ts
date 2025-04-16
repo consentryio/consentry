@@ -14,7 +14,7 @@ export type CookiePreferences = Record<ConsentCategory, boolean>;
 /**
  * Individual script definition for injection and control.
  */
-export type ConsentScript = {
+type ConsentScript = {
   /**
    * Unique ID for your script tag (used for hydration and deduplication).
    */
@@ -39,12 +39,13 @@ export type ConsentScript = {
   strategy?: "afterInteractive" | "lazyOnload" | "beforeInteractive";
 
   /**
-   * External script URL. Mutually exclusive with `content`.
+   * External script URL. Mutually exclusive with `content`, unless content includes a <script> tag.
    */
   src?: string;
 
   /**
-   * Inline JavaScript content (if not using `src`).
+   * Inline JavaScript OR raw <script> HTML (e.g. what devs copy-paste from vendors).
+   * Will be parsed if it starts with a <script> tag.
    */
   content?: string;
 
@@ -63,6 +64,11 @@ export type ConsentScript = {
    * before the user has made a choice. Overridden by stored preferences.
    */
   default?: boolean;
+
+  /**
+   * Optional extra attributes for the <script> tag, e.g. { async: "true", "data-key": "abc" }.
+   */
+  attributes?: Record<string, string>;
 };
 
 /**
