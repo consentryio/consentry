@@ -1,6 +1,6 @@
 {
   "name": "@consentry/ui",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Composable UI components for the Consentry consent manager. Built with Emotion and designed for use with @consentry/core or @consentry/next.",
   "keywords": [
     "cookie-consent",

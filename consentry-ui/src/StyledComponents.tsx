@@ -70,7 +70,7 @@ export const BannerWrapper = styled(motion.div, {
     mode === "top" &&
     `
       top: 0;
-      left: 50%;
+      left: 0;
       width: 100vw;
       border-radius: 0 0 0.75rem 0.75rem;
       padding: 1.5rem 2.5rem 1.5rem 2rem;
@@ -80,7 +80,7 @@ export const BannerWrapper = styled(motion.div, {
     mode === "bottom" &&
     `
       bottom: 0;
-      left: 50%;
+      left: 0;
       width: 100vw;
       border-radius: 0.75rem 0.75rem 0 0;
       padding: 1.5rem 2.5rem 1.5rem 2rem;
