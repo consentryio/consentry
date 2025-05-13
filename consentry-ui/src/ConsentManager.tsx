@@ -2,6 +2,7 @@
 
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
+import merge from "lodash-es/merge";
 import { useConsentManager } from "@consentry/next";
 import { setConsentOpener } from "./consentUI";
 
@@ -40,31 +41,37 @@ const DEFAULT_CATEGORIES: CookieCategory[] = [
   },
 ];
 
+const DEFAULT_LABELS = {
+  banner: {
+    title: "Manage your cookie preferences",
+    description:
+      "We use cookies to enhance site navigation, analyze usage, and assist in our marketing efforts. You can choose which types of cookies to allow. Essential cookies are always active to ensure core functionality.",
+    acceptAll: "Accept all",
+    rejectAll: "Reject all",
+    customize: "Customize",
+  },
+  modal: {
+    title: "Customize Cookie Preferences",
+    save: "Save Preferences",
+    cancel: "Cancel",
+  },
+};
+
 export const ConsentManager = ({
   mode,
   dark = false,
   hideSettingsButton = false,
-  categories = DEFAULT_CATEGORIES,
-  labels = {
-    banner: {
-      title: "Manage your cookie preferences",
-      description:
-        "We use cookies to enhance site navigation, analyze usage, and assist in our marketing efforts. You can choose which types of cookies to allow. Essential cookies are always active to ensure core functionality.",
-      acceptAll: "Accept all",
-      rejectAll: "Reject all",
-      customize: "Customize",
-    },
-    modal: {
-      title: "Customize Cookie Preferences",
-      save: "Save Preferences",
-      cancel: "Cancel",
-    },
-  },
-  classNames = defaultClassNames,
+  categories,
+  labels,
+  classNames,
   settingsButtonIcon,
 }: ConsentManagerProps) => {
   const { cookiePreferences, setCookiePreferences, isConsentKnown, showConsentBanner } =
     useConsentManager();
+
+  const mergedLabels = merge({}, DEFAULT_LABELS, labels ?? {});
+  const mergedClassNames = merge({}, defaultClassNames, classNames ?? {});
+  const mergedCategories = categories ?? DEFAULT_CATEGORIES;
 
   useEffect(() => {
     setConsentOpener(() => {
@@ -132,12 +139,12 @@ export const ConsentManager = ({
   };
 
   return (
-    <Wrapper className={classNames.wrapper}>
+    <Wrapper className={mergedClassNames.wrapper}>
       {!hideSettingsButton && (
         <SettingsButton
           open={true}
           setVisible={handleOpenSettings}
-          className={classNames.settingsButton}
+          className={mergedClassNames.settingsButton}
           icon={settingsButtonIcon}
         />
       )}
@@ -145,12 +152,12 @@ export const ConsentManager = ({
         <CookieBanner
           mode={mode}
           dark={dark}
-          onClose={() => setShowBanner(false)} // Consider this for handleRejectAll based on GDPR and others if needed
+          onClose={() => setShowBanner(false)}
           onCustomizeClick={handleOpenSettings}
           onAcceptAll={handleAcceptAll}
           onRejectAll={handleRejectAll}
-          labels={labels.banner}
-          classNames={classNames.banner}
+          labels={mergedLabels.banner}
+          classNames={mergedClassNames.banner}
           aria-label="Cookie consent banner"
         />
       )}
@@ -159,11 +166,11 @@ export const ConsentManager = ({
           dark={dark}
           localPrefs={localPrefs}
           setLocalPrefs={setLocalPrefs}
-          categories={categories}
+          categories={mergedCategories}
           onSave={handleSaveSettings}
           onClose={handleCloseSettings}
-          labels={labels.modal}
-          classNames={classNames.modal}
+          labels={mergedLabels.modal}
+          classNames={mergedClassNames.modal}
           aria-label="Cookie settings modal"
         />
       )}

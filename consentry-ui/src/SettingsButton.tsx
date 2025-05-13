@@ -12,7 +12,7 @@ export const SettingsButton = ({ setVisible, open, className, icon }: SettingsBu
       aria-label="Reopen preferences"
       className={className}
     >
-      {icon ?? <Cookie />}
+      {icon ?? <Cookie aria-hidden="true" focusable="false" />}
     </FloatingButton>
   );
 };

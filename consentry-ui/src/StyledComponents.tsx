@@ -64,15 +64,13 @@ export const BannerWrapper = styled(motion.div, {
   color: ${({ dark }) => (dark ? "#ffffff" : "#111827")};
   font-size: 0.875rem;
   border: 1px solid ${({ dark }) => (dark ? "#374151" : "#e5e7eb")};
-  box-shadow:
-    rgba(50, 50, 93, 0.1) 0px 8px 24px,
-    rgba(0, 0, 0, 0.06) 0px 4px 12px;
+  box-shadow: rgba(50, 50, 93, 0.1) 0px 8px 24px, rgba(0, 0, 0, 0.06) 0px 4px 12px;
 
   ${({ mode }) =>
     mode === "top" &&
     `
       top: 0;
-      left: 0;
+      left: 50%;
       width: 100vw;
       border-radius: 0 0 0.75rem 0.75rem;
       padding: 1.5rem 2.5rem 1.5rem 2rem;
@@ -82,7 +80,7 @@ export const BannerWrapper = styled(motion.div, {
     mode === "bottom" &&
     `
       bottom: 0;
-      left: 0;
+      left: 50%;
       width: 100vw;
       border-radius: 0.75rem 0.75rem 0 0;
       padding: 1.5rem 2.5rem 1.5rem 2rem;
@@ -179,9 +177,7 @@ export const ActionButton = styled.button<{
     outlined ? "transparent" : dark ? "#2563eb" : "#1d4ed8"};
   border: ${({ dark, outlined }) =>
     outlined ? `2px solid ${dark ? "#2563eb" : "#1d4ed8"}` : "none"};
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
 
   &:hover {
@@ -260,11 +256,11 @@ export const SwitchThumb = styled(motion.span)<SwitchThumbProps>`
 
 export const FloatingButton = styled.button`
   position: fixed;
-  bottom: 4rem;
+  bottom: 1rem;
   left: 1rem;
   z-index: 40;
   padding: 0.5rem;
-  background-color: #1d4ed8; /* blue-700 */
+  background-color: #1d4ed8;
   color: white;
   border-radius: 9999px;
   border: none;

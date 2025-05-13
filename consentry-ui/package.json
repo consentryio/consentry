@@ -1,6 +1,6 @@
 {
   "name": "@consentry/ui",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Composable UI components for the Consentry consent manager. Built with Emotion and designed for use with @consentry/core or @consentry/next.",
   "keywords": [
     "cookie-consent",
@@ -53,6 +53,7 @@
     "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^2.2.1",
     "framer-motion": "^10.16.1",
+    "lodash-es": "^4.17.21",
     "lucide-react": "^0.292.0"
   },
   "peerDependencies": {
@@ -62,6 +63,7 @@
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
+    "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.14.1",
     "@types/react": "^19.1.1",
     "@types/react-dom": "^19.1.2",

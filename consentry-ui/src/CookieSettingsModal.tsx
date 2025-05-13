@@ -1,5 +1,4 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { CookieCategory, CookiePrefs, ModalLabels, ModalClassNames } from "./types";
 import {
   Overlay,

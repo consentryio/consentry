@@ -28,6 +28,7 @@ export const ConsentManagerProvider = ({
 }: {
   config: ConsentConfig;
   children: ReactNode;
+  onConsentUpdate?: (prefs: CookiePreferences) => void;
 }) => {
   const [cookiePreferences, setCookiePreferencesState] = useState<CookiePreferences>({
     ...fallbackDefaults,
