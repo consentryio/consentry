@@ -172,12 +172,18 @@ export const ActionButton = styled.button<{
   colors?: ColorSettings;
   theme?: Theme;
 }>`
-  color: ${({ outlined, colors, theme = "light" as Theme }) =>
-    outlined ? colors?.[theme as Theme].primary : colors?.[theme as Theme].primaryText};
-  background-color: ${({ outlined, colors, theme = "light" as Theme }) =>
-    outlined ? "transparent" : colors?.[theme as Theme].primary};
-  border: ${({ outlined, colors, theme = "light" as Theme }) =>
-    outlined ? `2px solid ${colors?.[theme as Theme].primary}` : "none"};
+  color: ${({ outlined, colors, theme = "light" }) => {
+    const themeColors = colors?.[theme as Theme];
+    return outlined ? themeColors?.primary ?? "#000000" : themeColors?.primaryText ?? "#ffffff";
+  }};
+  background-color: ${({ outlined, colors, theme = "light" }) => {
+    const themeColors = colors?.[theme as Theme];
+    return outlined ? "transparent" : themeColors?.primary ?? "#000000";
+  }};
+  border: ${({ outlined, colors, theme = "light" }) => {
+    const themeColors = colors?.[theme as Theme];
+    return outlined ? `2px solid ${themeColors?.primary ?? "#000000"}` : "none";
+  }};
   font-weight: 500;
   font-size: 0.875rem;
   padding: 0.625rem 1.25rem;
@@ -186,10 +192,14 @@ export const ActionButton = styled.button<{
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ outlined, colors, theme = "light" as Theme }) =>
-      outlined ? "transparent" : colors?.[theme as Theme].primaryHover};
-    border-color: ${({ outlined, colors, theme = "light" as Theme }) =>
-      outlined ? colors?.[theme as Theme].primaryHover : "none"};
+    background-color: ${({ outlined, colors, theme = "light" }) => {
+      const themeColors = colors?.[theme as Theme];
+      return outlined ? "transparent" : themeColors?.primaryHover ?? "#000000";
+    }};
+    border-color: ${({ outlined, colors, theme = "light" }) => {
+      const themeColors = colors?.[theme as Theme];
+      return outlined ? themeColors?.primaryHover ?? "#000000" : "none";
+    }};
   }
 
   &:focus {
@@ -244,8 +254,10 @@ export const StyledSwitch = styled(Switch)<{
   align-items: center;
   justify-content: flex-start;
   border-radius: 9999px;
-  background-color: ${({ checked, colors, theme = "light" as Theme }) =>
-    checked ? colors?.[theme as Theme].primary : "#d1d5db"};
+  background-color: ${({ checked, colors, theme = "light" }) => {
+    const themeColors = colors?.[theme as Theme];
+    return checked ? themeColors?.primary ?? "#000000" : "#d1d5db";
+  }};
   transition: background-color 0.2s ease;
   cursor: pointer;
   border: none;
@@ -274,9 +286,14 @@ export const FloatingButton = styled.button<{
   left: 1rem;
   z-index: 40;
   padding: 0.5rem;
-  background-color: ${({ colors, theme = "light" as Theme }) =>
-    colors?.[theme as Theme].settingsButton};
-  color: ${({ colors, theme = "light" as Theme }) => colors?.[theme as Theme].settingsButtonText};
+  background-color: ${({ colors, theme = "light" }) => {
+    const themeColors = colors?.[theme as Theme];
+    return themeColors?.settingsButton ?? "#000000";
+  }};
+  color: ${({ colors, theme = "light" }) => {
+    const themeColors = colors?.[theme as Theme];
+    return themeColors?.settingsButtonText ?? "#ffffff";
+  }};
   border-radius: 9999px;
   border: none;
   cursor: pointer;
@@ -290,7 +307,9 @@ export const FloatingButton = styled.button<{
   }
 
   &:hover {
-    background-color: ${({ colors, theme = "light" as Theme }) =>
-      colors?.[theme as Theme].settingsButtonHover};
+    background-color: ${({ colors, theme = "light" }) => {
+      const themeColors = colors?.[theme as Theme];
+      return themeColors?.settingsButtonHover ?? "#000000";
+    }};
   }
 `;
