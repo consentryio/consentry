@@ -1,5 +1,12 @@
 import React from "react";
-import { CookieCategory, CookiePrefs, ModalLabels, ModalClassNames } from "./types";
+import {
+  CookieCategory,
+  CookiePrefs,
+  ModalLabels,
+  ModalClassNames,
+  Theme,
+  ColorSettings,
+} from "./types";
 import {
   Overlay,
   ModalContainer,
@@ -25,6 +32,8 @@ interface CookieSettingsModalProps {
   dark?: boolean;
   labels?: ModalLabels;
   classNames?: ModalClassNames;
+  colors?: ColorSettings;
+  theme?: Theme;
 }
 
 export const CookieSettingsModal = ({
@@ -36,6 +45,8 @@ export const CookieSettingsModal = ({
   dark = false,
   labels,
   classNames,
+  colors,
+  theme = "light",
 }: CookieSettingsModalProps) => {
   const handleToggle = (key: keyof CookiePrefs) => {
     setLocalPrefs(prev => ({
@@ -80,6 +91,8 @@ export const CookieSettingsModal = ({
                 checked={mandatory ? true : localPrefs[key]}
                 onChange={() => (mandatory ? null : handleToggle(key))}
                 className={classNames?.toggleSwitch}
+                colors={colors}
+                theme={theme}
               >
                 <SwitchThumb
                   animate={{ x: localPrefs[key] ? 20 : 4 }}
@@ -99,7 +112,13 @@ export const CookieSettingsModal = ({
           >
             {labels?.cancel}
           </SecondaryButton>
-          <ActionButton dark={dark} onClick={onSave} className={classNames?.saveButton}>
+          <ActionButton
+            dark={dark}
+            onClick={onSave}
+            className={classNames?.saveButton}
+            colors={colors}
+            theme={theme}
+          >
             {labels?.save}
           </ActionButton>
         </ButtonRow>

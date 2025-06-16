@@ -12,6 +12,7 @@ import { SettingsButton } from "./SettingsButton";
 import { CookieCategory, ConsentManagerProps } from "./types";
 import { Wrapper } from "./StyledComponents";
 import { defaultClassNames } from "./defaultClassNames";
+import { defaultColors } from "./defaultColors";
 
 const DEFAULT_CATEGORIES: CookieCategory[] = [
   {
@@ -65,6 +66,8 @@ export const ConsentManager = ({
   labels,
   classNames,
   settingsButtonIcon,
+  colors = defaultColors,
+  theme = "light",
 }: ConsentManagerProps) => {
   const { cookiePreferences, setCookiePreferences, isConsentKnown, showConsentBanner } =
     useConsentManager();
@@ -146,6 +149,8 @@ export const ConsentManager = ({
           setVisible={handleOpenSettings}
           className={mergedClassNames.settingsButton}
           icon={settingsButtonIcon}
+          colors={colors}
+          theme={theme}
         />
       )}
       {showBanner && (
@@ -159,6 +164,8 @@ export const ConsentManager = ({
           labels={mergedLabels.banner}
           classNames={mergedClassNames.banner}
           aria-label="Cookie consent banner"
+          colors={colors}
+          theme={theme}
         />
       )}
       {showSettings && (
@@ -172,6 +179,8 @@ export const ConsentManager = ({
           labels={mergedLabels.modal}
           classNames={mergedClassNames.modal}
           aria-label="Cookie settings modal"
+          colors={colors}
+          theme={theme}
         />
       )}
     </Wrapper>

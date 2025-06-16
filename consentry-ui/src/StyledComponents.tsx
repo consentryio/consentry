@@ -3,7 +3,8 @@ import { HTMLAttributes } from "react";
 import styled from "@emotion/styled";
 import { Switch } from "@headlessui/react";
 import { motion } from "framer-motion";
-import { Cookie } from "lucide-react";
+import { ColorSettings, Theme } from "./types";
+import { defaultColors } from "./defaultColors";
 
 // ──────────────────────────────────────────
 // Layout
@@ -51,19 +52,21 @@ export const ModalContainer = styled(motion.div, {
 interface BannerWrapperProps extends HTMLAttributes<HTMLDivElement> {
   mode: "top" | "bottom" | "modal";
   dark: boolean;
+  colors?: ColorSettings;
+  theme?: Theme;
 }
 
 // Styled motion.div with prop filtering
 export const BannerWrapper = styled(motion.div, {
-  shouldForwardProp: prop => !["dark", "mode"].includes(prop),
+  shouldForwardProp: prop => !["dark", "mode", "colors", "theme"].includes(prop),
 })<BannerWrapperProps>`
   position: fixed;
   z-index: 50;
   padding: 1.5rem;
-  background-color: ${({ dark }) => (dark ? "#111827" : "#ffffff")};
-  color: ${({ dark }) => (dark ? "#ffffff" : "#111827")};
+  background-color: ${({ colors, theme = "light" }) => colors?.[theme as Theme]?.background};
+  color: ${({ colors, theme = "light" }) => colors?.[theme as Theme]?.text};
   font-size: 0.875rem;
-  border: 1px solid ${({ dark }) => (dark ? "#374151" : "#e5e7eb")};
+  border: 1px solid ${({ colors, theme = "light" }) => colors?.[theme as Theme]?.border};
   box-shadow: rgba(50, 50, 93, 0.1) 0px 8px 24px, rgba(0, 0, 0, 0.06) 0px 4px 12px;
 
   ${({ mode }) =>
@@ -167,23 +170,27 @@ export const ButtonRow = styled.div<{ align?: "end" | "center" }>`
 export const ActionButton = styled.button<{
   dark: boolean;
   outlined?: boolean;
+  colors?: ColorSettings;
+  theme?: Theme;
 }>`
-  color: ${({ dark, outlined }) => (outlined || dark ? (dark ? "#ffffff" : "#1d4ed8") : "#ffffff")};
+  color: ${({ outlined, colors, theme = "light" as Theme }) =>
+    outlined ? colors?.[theme as Theme].primary : colors?.[theme as Theme].primaryText};
+  background-color: ${({ outlined, colors, theme = "light" as Theme }) =>
+    outlined ? "transparent" : colors?.[theme as Theme].primary};
+  border: ${({ outlined, colors, theme = "light" as Theme }) =>
+    outlined ? `2px solid ${colors?.[theme as Theme].primary}` : "none"};
   font-weight: 500;
   font-size: 0.875rem;
   padding: 0.625rem 1.25rem;
   border-radius: 0.5rem;
-  background-color: ${({ dark, outlined }) =>
-    outlined ? "transparent" : dark ? "#2563eb" : "#1d4ed8"};
-  border: ${({ dark, outlined }) =>
-    outlined ? `2px solid ${dark ? "#2563eb" : "#1d4ed8"}` : "none"};
   transition: background-color 0.2s ease, border-color 0.2s ease;
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ dark, outlined }) =>
-      outlined ? "transparent" : dark ? "#1e40af" : "#1e3a8a"};
-    border-color: ${({ dark, outlined }) => (outlined ? (dark ? "#1e40af" : "#1e3a8a") : "none")};
+    background-color: ${({ outlined, colors, theme = "light" as Theme }) =>
+      outlined ? "transparent" : colors?.[theme as Theme].primaryHover};
+    border-color: ${({ outlined, colors, theme = "light" as Theme }) =>
+      outlined ? colors?.[theme as Theme].primaryHover : "none"};
   }
 
   &:focus {
@@ -224,7 +231,11 @@ export const CloseButton = styled.button`
 // Toggle
 // ──────────────────────────────────────────
 
-export const StyledSwitch = styled(Switch)<{ checked: boolean }>`
+export const StyledSwitch = styled(Switch)<{
+  checked: boolean;
+  colors?: ColorSettings;
+  theme?: Theme;
+}>`
   margin-top: 1px;
   flex-shrink: 0;
   width: 44px;
@@ -234,7 +245,8 @@ export const StyledSwitch = styled(Switch)<{ checked: boolean }>`
   align-items: center;
   justify-content: flex-start;
   border-radius: 9999px;
-  background-color: ${({ checked }) => (checked ? "#2563eb" : "#d1d5db")};
+  background-color: ${({ checked, colors, theme = "light" as Theme }) =>
+    checked ? colors?.[theme as Theme].primary : "#d1d5db"};
   transition: background-color 0.2s ease;
   cursor: pointer;
   border: none;
@@ -254,14 +266,18 @@ export const SwitchThumb = styled(motion.span)<SwitchThumbProps>`
   border-radius: 9999px;
 `;
 
-export const FloatingButton = styled.button`
+export const FloatingButton = styled.button<{
+  colors?: ColorSettings;
+  theme?: Theme;
+}>`
   position: fixed;
   bottom: 1rem;
   left: 1rem;
   z-index: 40;
   padding: 0.5rem;
-  background-color: #1d4ed8;
-  color: white;
+  background-color: ${({ colors, theme = "light" as Theme }) =>
+    colors?.[theme as Theme].settingsButton};
+  color: ${({ colors, theme = "light" as Theme }) => colors?.[theme as Theme].settingsButtonText};
   border-radius: 9999px;
   border: none;
   cursor: pointer;
@@ -275,6 +291,7 @@ export const FloatingButton = styled.button`
   }
 
   &:hover {
-    background-color: #1e40af; /* blue-800 */
+    background-color: ${({ colors, theme = "light" as Theme }) =>
+      colors?.[theme as Theme].settingsButtonHover};
   }
 `;

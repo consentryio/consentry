@@ -12,6 +12,22 @@ export interface CookieCategory {
   mandatory?: boolean;
 }
 
+export type Theme = "light" | "dark";
+
+export interface ThemeColors {
+  primary: string;
+  primaryHover: string;
+  primaryText: string;
+  settingsButton: string;
+  settingsButtonHover: string;
+  settingsButtonText: string;
+  background: string;
+  text: string;
+  border: string;
+}
+
+export type ColorSettings = Record<Theme, ThemeColors>;
+
 export type CookieBannerProps = {
   onClose: () => void;
   onCustomizeClick: () => void;
@@ -21,6 +37,8 @@ export type CookieBannerProps = {
   dark?: boolean;
   labels?: BannerLabels;
   classNames?: BannerClassNames;
+  colors?: ColorSettings;
+  theme?: Theme;
 };
 
 export interface BannerLabels {
@@ -51,6 +69,8 @@ export interface ConsentManagerProps {
   labels?: ConsentManagerLabels;
   classNames?: ConsentManagerClassNames;
   settingsButtonIcon?: React.ReactNode;
+  colors?: ColorSettings;
+  theme?: Theme;
 }
 
 export interface SettingsButtonProps {
@@ -58,6 +78,8 @@ export interface SettingsButtonProps {
   open: boolean;
   icon?: React.ReactNode;
   className?: ConsentManagerClassNames["settingsButton"];
+  colors?: ColorSettings;
+  theme?: Theme;
 }
 
 export interface BannerClassNames {
@@ -94,4 +116,17 @@ export interface ConsentManagerClassNames {
   banner?: BannerClassNames;
   modal?: ModalClassNames;
   settingsButton?: string;
+}
+
+export interface CookieSettingsModalProps {
+  localPrefs: CookiePrefs;
+  setLocalPrefs: React.Dispatch<React.SetStateAction<CookiePrefs>>;
+  categories: CookieCategory[];
+  onSave: () => void;
+  onClose: () => void;
+  dark?: boolean;
+  labels?: ModalLabels;
+  classNames?: ModalClassNames;
+  colors?: ColorSettings;
+  theme?: Theme;
 }

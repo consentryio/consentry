@@ -23,12 +23,16 @@ export const CookieBanner = ({
   dark = false,
   labels,
   classNames,
+  colors,
+  theme = "light",
 }: CookieBannerProps) => {
   const isModal = mode === "modal";
   return (
     <BannerWrapper
       mode={mode}
       dark={dark}
+      colors={colors}
+      theme={theme}
       role="dialog"
       aria-modal="true"
       aria-labelledby="cookie-banner-title"
@@ -43,7 +47,7 @@ export const CookieBanner = ({
             }
           : {
               opacity: 0,
-              y: mode === "top" ? -50 : 50,
+              y: mode === "top" ? -100 : 100,
             }
       }
       animate={
@@ -69,7 +73,7 @@ export const CookieBanner = ({
             }
           : {
               opacity: 0,
-              y: mode === "top" ? -50 : 50,
+              y: mode === "top" ? -100 : 100,
             }
       }
       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
@@ -104,10 +108,18 @@ export const CookieBanner = ({
           dark={dark}
           onClick={onRejectAll}
           className={classNames?.rejectButton}
+          colors={colors}
+          theme={theme}
         >
           {labels?.rejectAll}
         </ActionButton>
-        <ActionButton dark={dark} onClick={onAcceptAll} className={classNames?.acceptButton}>
+        <ActionButton
+          dark={dark}
+          onClick={onAcceptAll}
+          className={classNames?.acceptButton}
+          colors={colors}
+          theme={theme}
+        >
           {labels?.acceptAll}
         </ActionButton>
       </ButtonRow>
