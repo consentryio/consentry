@@ -1,7 +1,5 @@
-import React from "react";
 import { X } from "lucide-react";
 import { CookieBannerProps } from "./types";
-import { motion } from "framer-motion";
 import {
   BannerWrapper,
   Header,

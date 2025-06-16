@@ -15,15 +15,15 @@ export interface CookieCategory {
 export type Theme = "light" | "dark";
 
 export interface ThemeColors {
-  primary: string;
-  primaryHover: string;
-  primaryText: string;
-  settingsButton: string;
-  settingsButtonHover: string;
-  settingsButtonText: string;
-  background: string;
-  text: string;
-  border: string;
+  primary?: string;
+  primaryHover?: string;
+  primaryText?: string;
+  settingsButton?: string;
+  settingsButtonHover?: string;
+  settingsButtonText?: string;
+  background?: string;
+  text?: string;
+  border?: string;
 }
 
 export type ColorSettings = Record<Theme, ThemeColors>;

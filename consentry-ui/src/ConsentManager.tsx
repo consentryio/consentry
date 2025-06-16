@@ -9,7 +9,7 @@ import { setConsentOpener } from "./consentUI";
 import { CookieSettingsModal } from "./CookieSettingsModal";
 import { CookieBanner } from "./CookieBanner";
 import { SettingsButton } from "./SettingsButton";
-import { CookieCategory, ConsentManagerProps } from "./types";
+import { CookieCategory, ConsentManagerProps, CookiePrefs } from "./types";
 import { Wrapper } from "./StyledComponents";
 import { defaultClassNames } from "./defaultClassNames";
 import { defaultColors } from "./defaultColors";
@@ -66,7 +66,7 @@ export const ConsentManager = ({
   labels,
   classNames,
   settingsButtonIcon,
-  colors = defaultColors,
+  colors,
   theme = "light",
 }: ConsentManagerProps) => {
   const { cookiePreferences, setCookiePreferences, isConsentKnown, showConsentBanner } =
@@ -75,6 +75,7 @@ export const ConsentManager = ({
   const mergedLabels = merge({}, DEFAULT_LABELS, labels ?? {});
   const mergedClassNames = merge({}, defaultClassNames, classNames ?? {});
   const mergedCategories = categories ?? DEFAULT_CATEGORIES;
+  const mergedColors = merge({}, defaultColors, colors ?? {});
 
   useEffect(() => {
     setConsentOpener(() => {
@@ -143,43 +144,58 @@ export const ConsentManager = ({
 
   return (
     <Wrapper className={mergedClassNames.wrapper}>
-      {!hideSettingsButton && (
-        <SettingsButton
-          open={true}
-          setVisible={handleOpenSettings}
-          className={mergedClassNames.settingsButton}
-          icon={settingsButtonIcon}
-          colors={colors}
-          theme={theme}
-        />
-      )}
       {showBanner && (
         <CookieBanner
+          onClose={() => setShowBanner(false)}
+          onCustomizeClick={() => {
+            setShowBanner(false);
+            setShowSettings(true);
+          }}
+          onAcceptAll={() => {
+            const newPrefs = Object.fromEntries(
+              mergedCategories.map(({ key, mandatory }) => [key, mandatory ?? true])
+            ) as CookiePrefs;
+            setCookiePreferences(newPrefs);
+            setShowBanner(false);
+          }}
+          onRejectAll={() => {
+            const newPrefs = Object.fromEntries(
+              mergedCategories.map(({ key, mandatory }) => [key, mandatory ?? false])
+            ) as CookiePrefs;
+            setCookiePreferences(newPrefs);
+            setShowBanner(false);
+          }}
           mode={mode}
           dark={dark}
-          onClose={() => setShowBanner(false)}
-          onCustomizeClick={handleOpenSettings}
-          onAcceptAll={handleAcceptAll}
-          onRejectAll={handleRejectAll}
           labels={mergedLabels.banner}
           classNames={mergedClassNames.banner}
-          aria-label="Cookie consent banner"
-          colors={colors}
+          colors={mergedColors}
           theme={theme}
         />
       )}
+
       {showSettings && (
         <CookieSettingsModal
-          dark={dark}
           localPrefs={localPrefs}
           setLocalPrefs={setLocalPrefs}
           categories={mergedCategories}
           onSave={handleSaveSettings}
-          onClose={handleCloseSettings}
+          onClose={() => setShowSettings(false)}
+          dark={dark}
           labels={mergedLabels.modal}
           classNames={mergedClassNames.modal}
-          aria-label="Cookie settings modal"
-          colors={colors}
+          colors={mergedColors}
+          theme={theme}
+        />
+      )}
+
+      {!hideSettingsButton && (
+        <SettingsButton
+          setVisible={setShowSettings}
+          open={!showSettings && !showBanner}
+          className={mergedClassNames.settingsButton}
+          icon={settingsButtonIcon}
+          colors={mergedColors}
           theme={theme}
         />
       )}

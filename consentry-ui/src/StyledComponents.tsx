@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 import { Switch } from "@headlessui/react";
 import { motion } from "framer-motion";
 import { ColorSettings, Theme } from "./types";
-import { defaultColors } from "./defaultColors";
 
 // ──────────────────────────────────────────
 // Layout
