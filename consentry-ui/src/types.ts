@@ -26,7 +26,7 @@ export interface ThemeColors {
   border?: string;
 }
 
-export type ColorSettings = Record<Theme, ThemeColors>;
+export type ColorSettings = Partial<Record<Theme, ThemeColors>>;
 
 export type CookieBannerProps = {
   onClose: () => void;
