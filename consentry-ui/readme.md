@@ -451,45 +451,94 @@ function MyComponent() {
 
 ```tsx
 classNames={{
-  // Banner
-  banner: "custom-banner",
-  bannerTitle: "custom-banner-title",
-  bannerDescription: "custom-banner-description",
-  bannerButtons: "custom-banner-buttons",
+  // Main wrapper
+  wrapper: "consent-wrapper",
 
-  // Modal
-  modal: "custom-modal",
-  modalOverlay: "custom-modal-overlay",
-  modalTitle: "custom-modal-title",
-  modalDescription: "custom-modal-description",
+  // Banner classes
+  banner: {
+    container: "cookie-banner",
+    header: "cookie-banner-header",
+    title: "cookie-banner-title",
+    message: "cookie-banner-message",
+    closeButton: "cookie-banner-close-button",
+    buttonRow: "cookie-banner-button-row",
+    acceptButton: "cookie-banner-accept-button",
+    rejectButton: "cookie-banner-reject-button",
+    customizeButton: "cookie-banner-customize-button",
+    content: "cookie-banner-content",
+  },
 
-  // Settings Button
-  settingsButton: "custom-settings-button",
+  // Modal classes
+  modal: {
+    overlay: "cookie-modal-overlay",
+    container: "cookie-modal-container",
+    title: "cookie-modal-title",
+    section: "cookie-modal-section",
+    row: "cookie-modal-row",
+    rowText: "cookie-modal-row-text",
+    rowTitle: "cookie-modal-row-title",
+    rowDescription: "cookie-modal-row-description",
+    toggleSwitch: "cookie-modal-switch",
+    toggleThumb: "cookie-modal-switch-thumb",
+    buttonRow: "cookie-modal-button-row",
+    saveButton: "cookie-modal-save-button",
+    cancelButton: "cookie-modal-cancel-button",
+  },
 
-  // Category Toggles
-  categoryItem: "custom-category-item",
-  categoryTitle: "custom-category-title",
-  categoryDescription: "custom-category-description",
-  toggle: "custom-toggle",
+  // Settings button
+  settingsButton: "cookie-settings-button",
 }}
 ```
 
-### CSS-in-JS Styling
+**Example: Custom styling**
 
-```tsx
-import styled from "@emotion/styled";
+```css
+/* Style the banner */
+.cookie-banner {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
 
-const StyledConsentManager = styled(ConsentManager)`
-  .custom-banner {
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
+.cookie-banner-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #1f2937;
+}
 
-  .custom-banner-title {
-    font-weight: 700;
-    font-size: 1.2rem;
-  }
-`;
+.cookie-banner-accept-button {
+  background: #6b50a2;
+  color: white;
+  border-radius: 6px;
+  padding: 8px 16px;
+}
+
+/* Style the modal */
+.cookie-modal-overlay {
+  backdrop-filter: blur(4px);
+}
+
+.cookie-modal-container {
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.cookie-modal-switch {
+  background: #e5e7eb;
+  transition: all 0.2s;
+}
+
+.cookie-modal-switch[data-checked="true"] {
+  background: #6b50a2;
+}
+
+/* Style the settings button */
+.cookie-settings-button {
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: #6b50a2;
+  color: white;
+}
 ```
 
 ---
